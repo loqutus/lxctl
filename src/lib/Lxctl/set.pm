@@ -100,6 +100,26 @@ sub set_ipaddr
 
 	return;
 }
+sub set_bridge
+{
+        my $self = shift;
+
+        defined($options{'bridge'}) or return;
+
+        print "Setting Bridge: $options{'bridge'}\n";
+
+        $self->{'helper'}->change_config("$root_mount_path/$options{'contname'}/config", 'lxc.network.link', $options{'bridge'});
+
+        return;
+}
+sub set_int_ifname 
+{
+	my $self = shift;
+	defined($options{'int_ifname'}) or return ;
+	print "Setting Interface Name: $options{'int_ifname'}\n";
+	$self->{'helper'}->change_config("$root_mount_path/$options{'contname'}/config", 'lxc.network.name', $options{'int_ifname'});
+	system("sed -i \'s/eth0/$options{'int_ifname'}/g\' $root_mount_path/$options{'contname'}/rootfs/etc/network/interfaces");
+}
 
 sub set_macaddr
 {

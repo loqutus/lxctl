@@ -112,6 +112,8 @@ B<Required arguments:>
 B<Optional arguments:>
 
 	--ipaddr - IP address of the machine
+	
+	--bridge - bridge of physical machine to connect
 
 	--mask/netmask - network mask of the machine
 

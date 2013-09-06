@@ -110,12 +110,12 @@ sub check_create_options
 	my $self = shift;
 	$Getopt::Long::passthrough = 1;
 
-	GetOptions(\%options, 'ipaddr=s', 'hostname=s', 'ostemplate=s', 
+	GetOptions(\%options, 'ipaddr=s', 'bridge=s', 'hostname=s', 'ostemplate=s', 
 		'config=s', 'roottype=s', 'root=s', 'rootsz=s', 'netmask|mask=s',
 		'defgw|gw=s', 'dns=s', 'macaddr=s', 'autostart=s', 'empty!',
 		'save!', 'load=s', 'debug', 'searchdomain=s', 'tz=s',
 		'fs=s', 'mkfsopts=s', 'mountoptions=s', 'mtu=i', 'userpasswd=s',
-		'pkgopt=s', 'addpkg=s', 'ifname=s');
+		'pkgopt=s', 'addpkg=s', 'ifname=s', 'int_ifname=s');
 
 	if (defined($options{'load'})) {
 		if ( ! -f $options{'load'}) {
@@ -164,6 +164,8 @@ sub check_create_options
 		}
 		$options{'defgw'} || print "You did not specify default gateway! Using default.\n";
 		$options{'dns'} || print "You did not specify DNS! Using default.\n";
+		$options{'bridge'} || print "You did not specify bridge! Using default.";
+		$options{'int_ifname'} || print "You did not specify internal ifname! Using default";
 	}
 
 	my @domain_tokens = split(/\./, $options{'contname'});
@@ -233,8 +235,8 @@ lxc.cgroup.devices.allow = c 254:0 rwm
 
 lxc.network.type = veth
 lxc.network.flags = up
-lxc.network.link = br0
-lxc.network.name = eth0
+lxc.network.link = $options{'bridge'}
+lxc.network.name = $options{'int_ifname'}
 lxc.network.mtu = 1500
 ";
 
@@ -326,6 +328,7 @@ sub do
 		$self->create_ssh_keys();
 
 		$setter->set_ipaddr();
+		$setter->set_bridge();
 		$setter->set_netmask();
 		$setter->set_defgw();
 		$setter->set_dns();
@@ -335,6 +338,7 @@ sub do
 		$setter->set_mtu();
 		$setter->set_userpasswd();
 		$setter->set_ifname();
+		$setter->set_int_ifname();
 
 		$self->deploy_packets();
 	}
