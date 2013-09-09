@@ -46,6 +46,10 @@ Options:
             Optional arguments:
 
                     --ipaddr - IP address of the machine
+                
+                    --bridge - bridge of physical machine to connect
+        
+                    --int_ifname - internal interface name
 
                     --mask/netmask - network mask of the machine
 
