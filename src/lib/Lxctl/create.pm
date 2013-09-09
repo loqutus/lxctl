@@ -177,7 +177,7 @@ sub check_create_options
 		$options{'bridge'} = 'br0'
 	}
 	
-	my @domain_tokens = split(/\./, $options{'contname'});
+	my @domain_tokens = $options{'contname'};
 	my $tmp_hostname = shift @domain_tokens;
 	$options{'hostname'} ||= $tmp_hostname;
 	$options{'searchdomain'} ||= join '.', @domain_tokens;
