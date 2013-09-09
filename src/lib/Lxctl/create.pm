@@ -168,12 +168,12 @@ sub check_create_options
 	}
 	if ($options{'int_ifname'} eq '')
 	{
-		$options{'int_ifname'} || print "You did not specify internal ifname! Using default";
+		$options{'int_ifname'} || print "You did not specify internal ifname! Using default.\n";
 		$options{'int_ifname'} = 'eth0'
 	}
 	if($options{'bridge'} eq '')
 	{
-		$options{'bridge'} || print "You did not specify bridge! Using default.";
+		$options{'bridge'} || print "You did not specify bridge! Using default.\n";
 		$options{'bridge'} = 'br0'
 	}
 	
